@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import UploadForm from "./Components/UploadForm";
+import { setAuthToken } from "./utils/constants";
+import { useEffect } from "react";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+
+
 
 function App() {
+
+  useEffect(() => {
+
+    setAuthToken("123");
+
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <div className="App">
+        <UploadForm />
+      </div>
+    </MuiPickersUtilsProvider>
   );
 }
 
