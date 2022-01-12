@@ -28,7 +28,7 @@ const shortify = (name = "") => {
 
 
 function UploadForm() {
-
+    console.log("BASE_URL",BASE_URL)
     const classes = useStyles();
     const initStateForm = {
         title: "",
@@ -70,11 +70,11 @@ const handleChange = (value,fieldName) => {
       formData.append("file", pdf);
       try {
         const res = await axios.put(`${BASE_URL}${END_POINT.FILE}`, formData);
-        if (res.status === 200 && res.data.file) {
+        if (res.status === 200 && res.data.file_name) {
           console.log('res', res)
-          console.log("res.data.file", res.data.file)
-          setUploadForm(prev => ({...prev, file: res.data.file}))
-          validateUploadForm({file : res.data.file}, errors, setErrors, setValidationResult)
+          console.log("res.data.file", res.data.file_name)
+          setUploadForm(prev => ({...prev, file: res.data.file_name}))
+          validateUploadForm({file : res.data.file_name}, errors, setErrors, setValidationResult)
         }
       } catch (error) {
         console.log(error.message);
@@ -83,6 +83,7 @@ const handleChange = (value,fieldName) => {
 
     const sendPublication = async (buttonMarker) => {
       console.log("uploadForm", uploadForm);
+     
     
       try {
      
@@ -141,7 +142,7 @@ const handleChange = (value,fieldName) => {
                         disableRipple
                         onClick={() => {
                           setUploadForm((prev) => ({ ...uploadForm, file: '' }));
-                          validateUploadForm({ file: uploadForm.file }, errors, setErrors, setValidationResult);
+                          validateUploadForm({ file: "" }, errors, setErrors, setValidationResult);
                         }}
                       >
                         <ClearIcon className={classes.clearIcon} />

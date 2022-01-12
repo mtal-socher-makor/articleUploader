@@ -26,7 +26,7 @@ import {
       paddingBlock : 20
     },
     inputsGrids:{
-      paddingTop: 20
+      paddingTop: 20,
     }
   });
 
@@ -60,5 +60,8 @@ import {
       "& .MuiInputLabel-outlined": {
         transform: "translate(12px, 12px) scale(1)",
       },
+      '& .MuiFormControl-root' : {
+          height : '83px !importent'
+      }
     },
   })(TextField);

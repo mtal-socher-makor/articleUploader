@@ -40,6 +40,5 @@ export function validateUploadForm(fieldValues,errors, setErrors, setValidationR
 
     console.log("tempResult1", tempResult1)
     console.log("tempResult2", tempResult2)
-    console.log("temp", temp)
     setValidationResult(result);    
 }
