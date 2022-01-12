@@ -8,15 +8,14 @@ import { END_POINT, BASE_URL } from "../utils/constants";
 import ClearIcon from "@material-ui/icons/Clear";
 import axios from "axios";
 import { ReactComponent as FileUpload } from "../Assets/FileUpload.svg";
-import { KeyboardDatePicker } from "@material-ui/pickers";
 import { useNavigate } from 'react-router';
 import { useStyles, StyledTextField } from "../Styles/formStyles";
 import { DeleteButton } from "../Styles/mainStyles";
+import { FilledButton } from '../Styles/mainStyles';
 import { validateUploadForm } from "../utils/validationFunctions";
 import SubHeader from "./SubHeader";
 import TextInputUnit from "./fields/TextInputUnit";
 import DateInputUnit from "./fields/DateInputUnit";
-
 
 
 const shortify = (name = "") => {
@@ -64,6 +63,7 @@ const handleChange = (value,fieldName) => {
 
 
   const onPDFUpload = async (e) => {
+      console.log("onPDFUpload clicked")
     let pdf = e.target.files[0];
     console.log("pdf", pdf)
       const formData = new FormData();
@@ -82,12 +82,11 @@ const handleChange = (value,fieldName) => {
   };
 
     const sendPublication = async (buttonMarker) => {
-
       console.log("uploadForm", uploadForm);
     
       try {
      
-    const res = await axios.post(`${BASE_URL}${END_POINT.ARTICLE}`,uploadForm);
+        const res = await axios.post(`${BASE_URL}${END_POINT.ARTICLE}`,uploadForm);
         // navigate("/");
         if (res.status === 200) {
           console.log("post - success")
@@ -109,7 +108,7 @@ const handleChange = (value,fieldName) => {
                                 <TextInputUnit
                                 name='name'
                                 label='Name'
-                                value={uploadForm.name}
+                                value={uploadForm.name || ""}
                                 onChange={(e) => handleChange(e.target.value, "name")}
                                 error={errors.name}
                                 />
@@ -118,12 +117,12 @@ const handleChange = (value,fieldName) => {
                                 <TextInputUnit
                                 name='description'
                                 label='Description'
-                                value={uploadForm.description}
+                                value={uploadForm.description || ""}
                                 onChange={(e) => handleChange(e.target.value, "description")}
                                 error={errors.description}
                                 />
                         </Grid>
-                        {/* <Grid item xs={6}>
+                        <Grid item xs={6}>
                             <DateInputUnit
                                 label=''
                                 name="date"
@@ -131,7 +130,7 @@ const handleChange = (value,fieldName) => {
                                 onChange={(date) => handleChange(date, "date")}
                                 error={errors.date}
                                 />
-                        </Grid> */}
+                        </Grid>
                           <Grid item xs={6}>
 
                                 <input
@@ -142,7 +141,7 @@ const handleChange = (value,fieldName) => {
                                 style={{ display: 'none' }}
                                 id="raised-button-file"
                                 />
-                                <label>
+                                <label htmlFor="raised-button-file">
                                     <Button variant="outlined" component="span" >
                                         {uploadForm.file ?  
                                             (
@@ -177,6 +176,12 @@ const handleChange = (value,fieldName) => {
                           </Grid>
 
 
+                </Grid>
+                <Grid container className={classes.btnContainer}>
+                    <Grid item xs={6}>
+                    <FilledButton disabled={!validationResult} onClick={sendPublication}>Publish</FilledButton>
+      
+                    </Grid>
                 </Grid>
 
             </Grid>
