@@ -107,13 +107,28 @@ const handleChange = (value,fieldName) => {
         <Grid item xs={12}>
           <Grid container direction="column" alignItems="center" >
             <Grid item xs={10} className={classes.inputsGrids}>
-              <TextInputUnit name="name" label="Name" value={uploadForm.name || ''} onChange={(e) => handleChange(e.target.value, 'name')} error={errors.name} />
+              <TextInputUnit 
+                name="title" 
+                label="Title" 
+                value={uploadForm.title || ''} 
+                onChange={(e) => handleChange(e.target.value, 'title')} 
+                error={errors.title} />
             </Grid>
             <Grid item xs={10} className={classes.inputsGrids}>
-              <TextInputUnit name="description" label="Description" value={uploadForm.description || ''} onChange={(e) => handleChange(e.target.value, 'description')} error={errors.description} />
+              <TextInputUnit 
+                name="description" 
+                label="Description" 
+                value={uploadForm.description || ''} 
+                onChange={(e) => handleChange(e.target.value, 'description')} 
+                error={errors.description} />
             </Grid>
             <Grid item xs={10} className={classes.inputsGrids}>
-              <DateInputUnit label="" name="date" value={uploadForm.date || new Date()} onChange={(date) => handleChange(date, 'date')} error={errors.date} />
+              <DateInputUnit 
+                label="" 
+                name="date" 
+                value={uploadForm.date || new Date()} 
+                onChange={(date) => handleChange(date, 'date')} 
+                error={errors.date} />
             </Grid>
             <Grid item xs={10} className={classes.inputsGrids}>
               <input type="file" accept=".pdf" onChange={onPDFUpload} placeholder="Upload PDF" style={{ display: 'none' }} id="raised-button-file" />
