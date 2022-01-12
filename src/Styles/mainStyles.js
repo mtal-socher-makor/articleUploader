@@ -1,7 +1,6 @@
 import {
     makeStyles,
     withStyles,
-    TextField,
     Button,
     IconButton,
   } from "@material-ui/core";
@@ -16,6 +15,7 @@ import {
     title: {
       color: "#868DA2",
       fontSize: "24px",
+      textAlign: "center"
     },
   })
 
@@ -34,3 +34,25 @@ import {
       },
     },
   })(IconButton);
+
+  export const FilledButton = withStyles({
+    root: {
+      padding: '7px 39px',
+      backgroundColor: '#1C67FF',
+      fontWeight: 400,
+      fontSize: '16px',
+      color: '#FFFFFF',
+      borderRadius: '21px',
+      textTransform: 'none',
+      '&:hover': {
+        backgroundColor: '#0044CD',
+        boxShadow: '0px 6px 10px #00185829',
+        transition: '.3s'
+      },
+      '&.Mui-disabled': {
+        backgroundColor: '#ACB1BF',
+        color: '#868DA2'
+      },
+    }
+  })(Button)
+  
