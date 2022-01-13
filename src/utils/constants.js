@@ -1,21 +1,22 @@
-import axios from "axios";
+import axios from 'axios'
 
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const END_POINT = {
-  AUTH: "/auth",
-  FILE: "/file",
-  UTILS: "/utils",
-  USER: "/user",
-  ARTICLE: "/article"
-};
+  AUTH: '/auth',
+  FILE: '/file',
+  UTILS: '/utils',
+  USER: '/user',
+  ARTICLE: '/article',
+}
 
 export function setAuthToken(token) {
   if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    console.log('token', token)
+    axios.defaults.headers.common['Authorization'] = `Bearer token`
   } else {
-    delete axios.defaults.headers.common["Authorization"];
+    delete axios.defaults.headers.common['Authorization']
   }
 }
 
