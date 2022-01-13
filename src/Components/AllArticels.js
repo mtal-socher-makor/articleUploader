@@ -22,7 +22,7 @@ function AllArticles(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
-  const [newArticle , setNewArticle] = useState(false)
+  const [newArticle, setNewArticle] = useState(false)
 
   const handleCloseForm = () => {
     setOpenForm(false);
@@ -36,7 +36,7 @@ function AllArticles(props) {
     setNewArticle(false)
     handleOpenForm();
   };
-  
+
   const deleteArticle = async (id) => {
     const res = await axios.delete(`${BASE_URL}${END_POINT.ARTICLE}/${id}`);
     if (res.status === 200) {
@@ -44,31 +44,34 @@ function AllArticles(props) {
       dispatch(articlesAction.getAllArticlesAsync())
     }
   };
-  
-  const addNewArticle = () =>{
+
+  const addNewArticle = () => {
     dispatch(articlesAction.clearChosenArticle())
     setNewArticle(true)
     handleOpenForm()
   }
 
-  // const convertTimestemp = (unixTimeStemp) => {
-     
-  //    return format(new Date(date) , 'yy.MM.yyyy')
-  // };
+  const convertTimestemp = (dateStr) => {
+    let timeStemp = new Date(dateStr)
+    if (!isNaN(timeStemp.getMonth())) {
+      return (format(timeStemp, 'dd.MM.yyyy'))
+    }
+    return('N/A')
+  };
   return (
     <>
-      <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm} newArticle={newArticle}/>
+      <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm} newArticle={newArticle} />
       <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
         <Grid item xs={8} align="right">
-          <FilledButton 
+          <FilledButton
             style={{ width: 37 }}
-            onClick={addNewArticle} 
-            >
+            onClick={addNewArticle}
+          >
             <AddCircleOutlineIcon
-              
-              fontSize="small" 
-              style={{ color: '#ffff' ,marginRight : 3}} 
-              /> New
+
+              fontSize="small"
+              style={{ color: '#ffff', marginRight: 3 }}
+            /> New
           </FilledButton>
         </Grid>
         <Grid container direction="column" alignItems="center">
@@ -92,7 +95,7 @@ function AllArticles(props) {
                       </TableCell>
                     );
                   })}
-                  <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc' }}>Actions</TableCell>
+                  <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc' , textAlign : 'center' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -100,30 +103,30 @@ function AllArticles(props) {
                   allArticles.map((article, idx) => {
                     return (
                       <TableRow key={idx} className={classes.tableRow}>
-                        <StyledTableCell>{article.title} </StyledTableCell>
+                        <StyledTableCell style={{ width: "50px" }}>{article.title.slice(0, 10)} </StyledTableCell>
                         <StyledTableCell>{article.description.slice(0, 10)} </StyledTableCell>
-                        <StyledTableCell>{format(new Date(article.date * 1000), 'dd.MM.yyyy')} </StyledTableCell>
+                        <StyledTableCell>{format(new Date(article.date), 'dd.MM.yyyy')} </StyledTableCell>
                         <StyledTableCell>{article.file} </StyledTableCell>
-                        <StyledTableCell>{article.createdAt} </StyledTableCell>
+                        <StyledTableCell>{convertTimestemp(article.createdAt)} </StyledTableCell>
                         <StyledTableCell style={{ padding: '0px' }}>
                           <Grid container justiyContent="space-evenly">
                             <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
                               <IconButton
                                 size="small"
                                 style={{ borderRadius: '50%' }}
-                                /* 
-                                  ! Think of Download the file
-                               */
+                              /* 
+                                ! Think of Download the file
+                             */
                               >
                                 <InsertDriveFileIcon fontSize="small" style={{ color: '#548CFF' }} />
                               </IconButton>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={4} align="center">
                               <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => setChosenArticleAndRedirect(article)}>
                                 <EditIcon fontSize="small" style={{ color: '#A3DA8D' }} />
                               </IconButton>
                             </Grid>
-                            <Grid item xs={4} align="left" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
                               <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => deleteArticle(article.id)}>
                                 <DeleteIcon fontSize="small" style={{ color: '#CD1818' }} />
                               </IconButton>
