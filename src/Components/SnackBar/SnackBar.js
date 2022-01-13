@@ -13,7 +13,6 @@ export default function Snackbar() {
   const dispatch = useDispatch();
   const snackBarOBJ = useSelector((state) => state.snackbar);
 
-  console.log(snackBarOBJ , "snackVBDSAFASFA")
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;

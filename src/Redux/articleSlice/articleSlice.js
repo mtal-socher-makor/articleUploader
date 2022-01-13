@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios'
+import axios from 'axios';
 import { BASE_URL, END_POINT } from '../../utils/constants';
 import * as snackbarActions from '../snackbarSlice/snackbarSlice';
 export const articlesSlice = createSlice({
   name: 'articles',
   initialState: {
     articles: [],
-    chosenArticle: [],
+    chosenArticle: null,
   },
 
   reducers: {
@@ -19,32 +19,29 @@ export const articlesSlice = createSlice({
   },
 });
 
-let action ={}
-export const getAllArticles = () => async (dispatch) => {
+let payload = {};
+export const getAllArticlesAsync = () => async (dispatch) => {
   try {
-    const res = await axios.get(`${BASE_URL}/${END_POINT.ARTICLE}`);
+    const res = await axios.get(`${BASE_URL}${END_POINT.ARTICLE}`);
+    dispatch(setArticels(res.data));
     if (res.status === 200) {
-      dispatch(setArticels(res.data));
-      action = {
-        payload: {
-          visible: true,
-          timeout: 3000,
-          message: 'Article load successfuly ',
-          type: 'success',
-        },
-      };
-      snackbarActions.setSnackBarAction(action);
-    }
-  } catch (err) {
-    action = {
-      payload: {
+      payload = {
         visible: true,
         timeout: 3000,
-        message: err.message,
-        type: 'error',
-      },
+        message: 'Article load successfuly ',
+        type: 'success',
+      };
+
+      dispatch(snackbarActions.setSnackBarAction(payload))
+    }
+  } catch (err) {
+    payload = {
+      visible: true,
+      timeout: 3000,
+      message: err.message,
+      type: 'error',
     };
-    snackbarActions.setSnackBarAction(action);
+    dispatch(snackbarActions.setSnackBarAction(payload));
   }
 };
 

@@ -7,17 +7,45 @@ import {
 
   export const useStyles = makeStyles({
     blueShape: {
-      backgroundColor: "#1C67FF",
-      borderRadius: "8px",
-      height: "12px",
-      marginBottom: "10px",
+      backgroundColor: '#1C67FF',
+      borderRadius: '8px',
+      height: '12px',
+      marginBottom: '10px',
     },
     title: {
-      color: "#868DA2",
-      fontSize: "24px",
-      textAlign: "center"
+      color: '#868DA2',
+      fontSize: '24px',
+      textAlign: 'center',
     },
-  })
+    tableRow: {
+      backgroundColor: '#0909090d',
+      filter: `drop-shadow(-2px 2px 4px #bababa)`,
+      '& :first-child': {
+        borderRadius: '4px 0 0 4px',
+      },
+      '& :last-child': {
+        borderRadius: ' 0 4px 4px 0',
+      },
+    },
+    pageGrid: {
+      marginTop: '10%',
+      margin: '0 auto',
+    },
+    tableContainer: {
+      maxHeight: 440,
+      '&::-webkit-scrollbar': {
+        width: 10,
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: '#e0d5d5',
+        borderRadius: 4,
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: '#bababa',
+        borderRadius: 8,
+      },
+    },
+  });
 
   export const DeleteButton = withStyles({
     root: {

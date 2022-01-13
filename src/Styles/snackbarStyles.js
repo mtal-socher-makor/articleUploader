@@ -6,14 +6,14 @@ export const useStyles = makeStyles((theme) => ({
     top: '69px',
     right: '30px',
     width: 'auto',
-    zIndex: 1400,
+    zIndex: 4000,
     opacity: 0.8,
     '& > * + *': {
       marginTop: theme.spacing(3),
     },
     [theme.breakpoints.down('xs')]: {
       position: 'absolute',
-      zIndex: 1400,
+      zIndex: 4000,
       width: '90%',
       right: '5%',
     },
