@@ -11,18 +11,17 @@ import SubHeader from './SubHeader';
 import { ReactComponent as Rectangle } from '../Assets/Rectangle.svg';
 import { useState } from 'react';
 import UploadForm from '../Components/UploadForm';
-import { END_POINT, BASE_URL } from "../utils/constants";
-import axios from "axios";
+import { END_POINT, BASE_URL } from '../utils/constants';
+import axios from 'axios';
 
 const headersLables = ['Title', 'Decription', 'Date', 'File', 'Created at'];
 
-
-function AllArticles(props) {
+function AllArticles() {
   const allArticles = useSelector((state) => state.articles.articles);
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
-  const [newArticle, setNewArticle] = useState(false)
+  const [newArticle, setNewArticle] = useState(false);
 
   const handleCloseForm = () => {
     setOpenForm(false);
@@ -33,45 +32,42 @@ function AllArticles(props) {
 
   const setChosenArticleAndRedirect = (article) => {
     dispatch(articlesAction.setChosenArticle(article));
-    setNewArticle(false)
+    setNewArticle(false);
     handleOpenForm();
   };
 
   const deleteArticle = async (id) => {
     const res = await axios.delete(`${BASE_URL}${END_POINT.ARTICLE}/${id}`);
     if (res.status === 200) {
-      console.log("delete - success");
-      dispatch(articlesAction.getAllArticlesAsync())
+      console.log('delete - success');
+      dispatch(articlesAction.getAllArticlesAsync());
     }
   };
 
   const addNewArticle = () => {
-    dispatch(articlesAction.clearChosenArticle())
-    setNewArticle(true)
-    handleOpenForm()
-  }
+    dispatch(articlesAction.clearChosenArticle());
+    setNewArticle(true);
+    handleOpenForm();
+  };
 
   const convertTimestemp = (dateStr) => {
-    let timeStemp = new Date(dateStr)
+    let timeStemp = new Date(dateStr);
     if (!isNaN(timeStemp.getMonth())) {
-      return (format(timeStemp, 'dd.MM.yyyy'))
+      return format(timeStemp, 'dd.MM.yyyy');
     }
-    return('N/A')
+    return 'N/A';
+  };
+
+  const showFile = (file_name) => {
+    window.open(`https://files-website.enigma-securities.io/${file_name}`);
   };
   return (
     <>
       <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm} newArticle={newArticle} />
       <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
-        <Grid item xs={6} align="right">
-          <FilledButton
-            style={{ width: 37 }}
-            onClick={addNewArticle}
-          >
-            <AddCircleOutlineIcon
-
-              fontSize="small"
-              style={{ color: '#ffff', marginRight: 3 }}
-            /> New
+        <Grid item xs={7} align="right">
+          <FilledButton style={{ width: 37 }} onClick={addNewArticle}>
+            <AddCircleOutlineIcon fontSize="small" style={{ color: '#ffff', marginRight: 3 }} /> New
           </FilledButton>
         </Grid>
         <Grid container direction="column" alignItems="center">
@@ -84,7 +80,7 @@ function AllArticles(props) {
         </Grid>
 
         <Grid item xs={12} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-          <TableContainer className={classes.tableContainer} style={{ width: '50%' }}>
+          <TableContainer className={classes.tableContainer} style={{ width: '60%' }}>
             <StyledTable stickyHeader size="small" style={{ width: '100%' }}>
               <TableHead>
                 <TableRow className={classes.tableRow} style={{ filter: 'none' }}>
@@ -95,7 +91,7 @@ function AllArticles(props) {
                       </TableCell>
                     );
                   })}
-                  <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc' , textAlign : 'center' }}>Actions</TableCell>
+                  <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc', textAlign: 'center', width: '100px' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -103,21 +99,15 @@ function AllArticles(props) {
                   allArticles.map((article, idx) => {
                     return (
                       <TableRow key={idx} className={classes.tableRow}>
-                        <StyledTableCell style={{ width: "50px" }}>{article.title.slice(0, 10)} </StyledTableCell>
+                        <StyledTableCell style={{ minWidth: '55px' }}>{article.title.slice(0, 10)} </StyledTableCell>
                         <StyledTableCell>{article.description.slice(0, 10)} </StyledTableCell>
                         <StyledTableCell>{format(new Date(article.date), 'dd.MM.yyyy')} </StyledTableCell>
-                        <StyledTableCell style={{maxWidth: 415}}>{article.file} </StyledTableCell>
+                        <StyledTableCell style={{ maxWidth: 415 }}>{article.file} </StyledTableCell>
                         <StyledTableCell>{convertTimestemp(article.createdAt)} </StyledTableCell>
                         <StyledTableCell style={{ padding: '0px' }}>
                           <Grid container justiyContent="space-evenly">
                             <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-                              <IconButton
-                                size="small"
-                                style={{ borderRadius: '50%' }}
-                              /* 
-                                ! Think of Download the file
-                             */
-                              >
+                              <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => showFile(article.file)}>
                                 <InsertDriveFileIcon fontSize="small" style={{ color: '#548CFF' }} />
                               </IconButton>
                             </Grid>
