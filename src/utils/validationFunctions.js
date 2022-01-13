@@ -42,3 +42,38 @@ export function validateUploadForm(fieldValues,errors, setErrors, setValidationR
     console.log("tempResult2", tempResult2)
     setValidationResult(result);    
 }
+
+export function validateEditedUploadForm(fieldValues,errors, setErrors, setValidationResult){
+
+    let temp = {...errors};
+    const someFields = ["title","description", "file"];
+                      
+
+    someFields.forEach(field => {
+        if(field in fieldValues){
+            console.log("fieldValues[field]",fieldValues[field])
+            temp[field] = fieldValues[field] ? "" : "This field is required";
+        }
+    })
+
+    temp.date = "";
+
+    if("date" in fieldValues){
+        temp.date = fieldValues.date ? "" : "This field is required";
+
+        if(isValid(new Date(fieldValues.date))){
+            temp.date = "";
+            console.log("inside is valid")
+            if(!fieldValues.date){
+                temp.date = "This field is required";
+            }
+        }else{
+            temp.date = "Date is invalid";
+        }
+    }
+    
+    setErrors({...temp});
+    const result = Object.values(temp).every(x => x === "")
+    
+    setValidationResult(result);    
+}

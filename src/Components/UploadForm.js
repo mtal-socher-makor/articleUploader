@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect, useMemo} from "react";
 import {
   Grid,
   Typography,
@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router';
 import { useStyles, StyledTextField } from "../Styles/formStyles";
 import { DeleteButton } from "../Styles/mainStyles";
 import { FilledButton } from '../Styles/mainStyles';
-import { validateUploadForm } from "../utils/validationFunctions";
+import { validateUploadForm, validateEditedUploadForm } from "../utils/validationFunctions";
 import SubHeader from "./SubHeader";
 import TextInputUnit from "./fields/TextInputUnit";
 import DateInputUnit from "./fields/DateInputUnit";
@@ -44,38 +44,62 @@ function UploadForm() {
     // const navigate = useNavigate();
 
       //Dummy variable for now- for later use in editing mode
-    const chosenPublication = null;
-
+    const chosenPublication = useMemo(() => {
+        return  {
+            "id":188,
+            "title":"Aave",
+            "description":"12th January 2022",
+            "date":1641958551011,
+            "file":"Aave_EnigmaSmartMoney_1641967615051.pdf",
+            "createdAt":"2022-01-12T06:07:07.000Z",
+            "updatedAt":"2022-01-12T06:07:07.000Z"};
+        },[]
+    )
+    
       //For editing
-//     useEffect(() => {
+
+    useEffect(() => {
    
-//     if(chosenPublication){
-//      setuploadForm(chosenPublication);
-//      setValidationResult(true);
-//     }
-//    }, [chosenPublication]);
+    if(chosenPublication){
+     setUploadForm(chosenPublication);
+     setValidationResult(true);
+    }
+   }, [chosenPublication]);
 
 const handleChange = (value,fieldName) => {
     
     console.log("fieldName", fieldName, "value", value);
     setUploadForm({ ...uploadForm, [fieldName]: value });
-    validateUploadForm({[fieldName] : value}, errors, setErrors, setValidationResult)
+
+    if(chosenPublication){
+        validateEditedUploadForm({[fieldName] : value}, errors, setErrors, setValidationResult)
+    }else{
+        validateUploadForm({[fieldName] : value}, errors, setErrors, setValidationResult)
+    }
   };
 
 
   
 
-    const sendPublication = async (buttonMarker) => {
+    const sendPublication = async () => {
       console.log("uploadForm", uploadForm);
-     
+        let res;
     
       try {
-     
-        const res = await axios.post(`${BASE_URL}${END_POINT.ARTICLE}`,uploadForm);
-        // navigate("/");
-        if (res.status === 200) {
-          console.log("post - success")
-        }
+            if(chosenPublication && chosenPublication.id){
+                const res = await axios.put(`${BASE_URL}${END_POINT.ARTICLE}/${chosenPublication.id}`,uploadForm);
+                // navigate("/");
+                if (res.status === 200) {
+                console.log("post - success")
+                }
+            }else{
+                res = await axios.post(`${BASE_URL}${END_POINT.ARTICLE}`,uploadForm);
+                // navigate("/");
+                if (res.status === 200) {
+                console.log("post - success")
+                 }
+            }
+        
         }catch (error) {
          console.log("post failed - ", error.message);
     }
