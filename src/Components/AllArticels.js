@@ -33,9 +33,10 @@ const handleOpenForm = () => {
     handleOpenForm()
   }
 
-  const DeleteArticle = (id) => {
+  const deleteArticle = async (id) => {
+    // FOR THE LADIES!
+  };
 
-  }
   const convertTimestemp = (unixTimeStemp) => {
     const date = new Date(unixTimeStemp);
     console.log(date, typeof date);
@@ -95,7 +96,7 @@ const handleOpenForm = () => {
                               </IconButton>
                             </Grid>
                             <Grid item xs={4} align="left" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                              <IconButton size="small" style={{ borderRadius: '50%' }}>
+                              <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => deleteArticle(article.id)}>
                                 <DeleteIcon fontSize="small" style={{ color: '#CD1818' }} />
                               </IconButton>
                             </Grid>
