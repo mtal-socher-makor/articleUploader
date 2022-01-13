@@ -2,10 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL, END_POINT } from '../../utils/constants';
 import * as snackbarActions from '../snackbarSlice/snackbarSlice';
+import { useDispatch,  useSelector } from "react-redux"
 export const articlesSlice = createSlice({
   name: 'articles',
   initialState: {
-    articles: [],
+    articles: null,
     chosenArticle: null,
   },
 
@@ -19,7 +20,15 @@ export const articlesSlice = createSlice({
   },
 });
 
-let payload = {};
+
+
+//selectors
+
+export const selectChosenArticle = state => state.articles.chosenArticle;
+
+//actions
+
+let payload ={}
 export const getAllArticlesAsync = () => async (dispatch) => {
   try {
     const res = await axios.get(`${BASE_URL}${END_POINT.ARTICLE}`);

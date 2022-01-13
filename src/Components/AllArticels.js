@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SubHeader from './SubHeader';
 import {ReactComponent as Rectangle} from '../Assets/Rectangle.svg'
 import { useState } from 'react';
+import UploadForm from '../Components/UploadForm'
 const headersLables = ['Title', 'Decription', 'Date', 'File', 'Created at', 'Updated at'];
 
 
@@ -29,6 +30,7 @@ const handleOpenForm = () => {
 
   const setChosenArticleAndRedirect = (article) => {
     dispatch(articlesAction.setChosenArticle(article));
+    handleOpenForm()
   }
 
   const DeleteArticle = (id) => {
@@ -41,70 +43,73 @@ const handleOpenForm = () => {
     // format(new Date(date) , 'yy.MM.yyyy')
   };
   return (
-    <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
-      <Grid item xs={12}>
-        <Grid container direction="column" alignItems='center'>
-          <Grid item xs={12}>
-            <Rectangle />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className={classes.title}>All Articles</Typography>
+    <>
+      <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm}/>
+      <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
+        <Grid item xs={12}>
+          <Grid container direction="column" alignItems="center">
+            <Grid item xs={12}>
+              <Rectangle />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography className={classes.title}>All Articles</Typography>
+            </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={12} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
+          <TableContainer className={classes.tableContainer} style={{ width: '80%' }}>
+            <StyledTable stickyHeader size="small" style={{ width: '100%' }}>
+              <TableHead>
+                <TableRow className={classes.tableRow} style={{ filter: 'none' }}>
+                  {headersLables.map((header, idx) => {
+                    return (
+                      <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc' }} key={idx}>
+                        {header}
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc' }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {allArticles &&
+                  allArticles.map((article, idx) => {
+                    return (
+                      <TableRow key={idx} className={classes.tableRow}>
+                        <StyledTableCell>{article.title} </StyledTableCell>
+                        <StyledTableCell>{article.description.slice(0, 10)} </StyledTableCell>
+                        <StyledTableCell>{format(new Date(article.date * 1000), 'dd.MM.yyyy')} </StyledTableCell>
+                        <StyledTableCell>{article.file} </StyledTableCell>
+                        <StyledTableCell>{convertTimestemp(article.createdAt)} </StyledTableCell>
+                        <StyledTableCell>{article.updatedAt} </StyledTableCell>
+                        <StyledTableCell style={{ padding: '0px' }}>
+                          <Grid container justiyContent="space-evenly">
+                            <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
+                              <IconButton size="small" style={{ borderRadius: '50%' }}>
+                                <InsertDriveFileIcon fontSize="small" style={{ color: '#548CFF' }} />
+                              </IconButton>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => setChosenArticleAndRedirect(article)}>
+                                <EditIcon fontSize="small" style={{ color: '#A3DA8D' }} />
+                              </IconButton>
+                            </Grid>
+                            <Grid item xs={4} align="left" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                              <IconButton size="small" style={{ borderRadius: '50%' }}>
+                                <DeleteIcon fontSize="small" style={{ color: '#CD1818' }} />
+                              </IconButton>
+                            </Grid>
+                          </Grid>
+                        </StyledTableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </StyledTable>
+          </TableContainer>
+        </Grid>
       </Grid>
-      <Grid item xs={12} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-        <TableContainer className={classes.tableContainer} style={{ width: '80%' }}>
-          <StyledTable stickyHeader size="small" style={{ width: '100%' }}>
-            <TableHead>
-              <TableRow className={classes.tableRow} style={{ filter: 'none' }}>
-                {headersLables.map((header, idx) => {
-                  return (
-                    <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc' }} key={idx}>
-                      {header}
-                    </TableCell>
-                  );
-                })}
-                <TableCell style={{ borderBottom: 'none', backgroundColor: '#cccccc' }}>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {allArticles &&
-                allArticles.map((article, idx) => {
-                  return (
-                    <TableRow key={idx} className={classes.tableRow}>
-                      <StyledTableCell>{article.title} </StyledTableCell>
-                      <StyledTableCell>{article.description.slice(0, 10)} </StyledTableCell>
-                      <StyledTableCell>{format(new Date(article.date * 1000), 'dd.MM.yyyy')} </StyledTableCell>
-                      <StyledTableCell>{article.file} </StyledTableCell>
-                      <StyledTableCell>{convertTimestemp(article.createdAt)} </StyledTableCell>
-                      <StyledTableCell>{article.updatedAt} </StyledTableCell>
-                      <StyledTableCell style={{ padding: '0px' }}>
-                        <Grid container justiyContent="space-evenly">
-                          <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-                            <IconButton size="small" style={{ borderRadius: '50%' }}>
-                              <InsertDriveFileIcon fontSize="small" style={{ color: '#548CFF' }} />
-                            </IconButton>
-                          </Grid>
-                          <Grid item xs={4}>
-                            <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => setChosenArticleAndRedirect(article)}>
-                              <EditIcon fontSize="small" style={{ color: '#A3DA8D' }} />
-                            </IconButton>
-                          </Grid>
-                          <Grid item xs={4} align="left" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <IconButton size="small" style={{ borderRadius: '50%' }}>
-                              <DeleteIcon fontSize="small" style={{ color: '#CD1818' }} />
-                            </IconButton>
-                          </Grid>
-                        </Grid>
-                      </StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </StyledTable>
-        </TableContainer>
-      </Grid>
-    </Grid>
+    </>
   );
 }
 

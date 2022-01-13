@@ -9,38 +9,40 @@ function TextInputUnit({
   label,
   onChange,
   size = 12,
-  error=null,
-  id=null,
-  inputProps=null,
-  InputProps=null,
-  onKeyDown=null,
-  type=null
+  error = null,
+  id = null,
+  inputProps = null,
+  InputProps = null,
+  onKeyDown = null,
+  type = null
 
 }) {
 
   const classes = useStyles();
 
   return (
-    <Grid container className={className}>
+    <Grid container className={className} style={{
+      height: '57px',
+    }}>
       <Grid item xs={size}>
         <StyledTextField
           className={classes.field}
           name={name}
           value={value}
-          inputProps={{ autoComplete: "off"}}
+          inputProps={{ autoComplete: "off" }}
           placeholder={label}
           onChange={onChange}
           style={{ width: "100%" }}
           variant="outlined"
-          {...(error && {error: true, helperText:error})}
-          {...(id && {id:id})}
-          {...( type && {type: type})}
-          {...( InputProps && { InputProps: InputProps})}
-          {...( inputProps && { inputProps: inputProps})}
-          {...( onKeyDown && { onKeyDown: onKeyDown})}
-          {...( type && {type: type})}
-          
-         
+          {...(error && { error: true, helperText: error })}
+          {...(id && { id: id })}
+          {...(type && { type: type })}
+          {...(InputProps && { InputProps: InputProps })}
+          {...(inputProps && { inputProps: inputProps })}
+          {...(onKeyDown && { onKeyDown: onKeyDown })}
+          {...(type && { type: type })}
+
+
         />
       </Grid>
     </Grid>
@@ -50,7 +52,7 @@ function TextInputUnit({
 export default TextInputUnit;
 
 const useStyles = makeStyles({
-  field:{
+  field: {
     // height:63.2
   }
 })

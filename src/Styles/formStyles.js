@@ -7,6 +7,10 @@ import {
   } from "@material-ui/core";
 
   export const useStyles = makeStyles({
+    modalBackDrop: {    
+        backdropFilter: 'blur(2px)',    
+        backgroundColor: '#00001e25',    
+    },
     page: {
       marginTop: '15%',
       width : '30%',
@@ -26,7 +30,7 @@ import {
       paddingBlock : 20
     },
     inputsGrids:{
-      paddingTop: 20
+      paddingTop: 20,
     }
   });
 
@@ -60,5 +64,8 @@ import {
       "& .MuiInputLabel-outlined": {
         transform: "translate(12px, 12px) scale(1)",
       },
+      '& .MuiFormControl-root' : {
+          height : '83px !importent'
+      }
     },
   })(TextField);

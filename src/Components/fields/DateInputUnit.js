@@ -6,7 +6,10 @@ import { ReactComponent as IconCalendar } from "../../Assets/iconCalender.svg";
 function DateInputUnit({ className = '', label, value, onChange, error = null, datePickerClass = '', inputVariant = 'outlined', iconFontSize = '18px' }) {
   const classes = useStyles()
   return (
-    <Grid container className={className}>
+    <Grid container className={className} style={{
+        height: '57px',
+        paddingBottom : '20px'
+      }}>
       
       <Grid item xs={12}>
         
@@ -31,9 +34,6 @@ function DateInputUnit({ className = '', label, value, onChange, error = null, d
             />
           }
         />
-        {/* <Typography variant="caption">
-          {label}
-        </Typography> */}
       </Grid>
     </Grid>
   );
