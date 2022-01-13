@@ -25,7 +25,7 @@ export const login = (email, password) => async (dispatch) => {
     localStorage.token = res.data.token;
     //const userContent = { ...res.data.user, ...res.data.payload.user }
     //localStorage.setItem('userContent', JSON.stringify(userContent))
-    
+
     dispatch({ type: LOGIN_SUCCESS, payload: { token: res.data.token } });
     // dispatch({type:SET_LOADING_INDICATOR_2FA, payload:false});
     payload = {
@@ -56,12 +56,12 @@ export const login = (email, password) => async (dispatch) => {
         };
         dispatch(actionSnackBar.setSnackBarAction(payload));
       } else {
-         payload = {
-           visible: true,
-           timeout: 2000,
-           message: 'Server error',
-           type: 'error',
-         };
+        payload = {
+          visible: true,
+          timeout: 2000,
+          message: 'Server error',
+          type: 'error',
+        };
         dispatch(actionSnackBar.setSnackBarAction(payload));
       }
     }
@@ -75,9 +75,21 @@ export const logout = () => async (dispatch) => {
     if (res.status === 200) {
       localStorage.clear();
       dispatch({ type: LOGOUT_SUCCESS });
-      dispatch(actionSnackBar.setSnackBarAction('success', 'Successfully disconnected', 2000));
+      payload = {
+        visible: true,
+        timeout: 3000,
+        message: 'Successfully disconnected',
+        type: 'success',
+      };
+      dispatch(actionSnackBar.setSnackBarAction(payload));
     }
   } catch (error) {
-    dispatch(actionSnackBar.setSnackBarAction('error', 'Logout failed', 3000));
+    payload = {
+      visible: true,
+      timeout: 3000,
+      message: 'Logout failed',
+      type: 'error',
+    };
+    dispatch(actionSnackBar.setSnackBarAction(payload));
   }
 };
