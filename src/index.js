@@ -1,23 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
 
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import {Provider} from 'react-redux'
-import {configureAppStore} from './Redux/store'
-import Snackbar from './Components/SnackBar/SnackBar';
+import { Provider } from 'react-redux'
+import { configureAppStore } from './Redux/store'
 
 const store = configureAppStore()
-
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Snackbar />
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
-);
-
+)

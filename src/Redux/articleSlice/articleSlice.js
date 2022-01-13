@@ -12,13 +12,13 @@ export const articlesSlice = createSlice({
 
   reducers: {
     setArticels: (state, action) => {
-      state.articles = action.payload;
+      state.articles = action.payload
     },
     setChosenArticle: (state, action) => {
-      state.chosenArticle = action.payload;
+      state.chosenArticle = action.payload
     },
   },
-});
+})
 
 
 
@@ -52,8 +52,8 @@ export const getAllArticlesAsync = () => async (dispatch) => {
     };
     dispatch(snackbarActions.setSnackBarAction(payload));
   }
-};
+}
 
-export const { setArticels, setChosenArticle } = articlesSlice.actions;
+export const { setArticels, setChosenArticle } = articlesSlice.actions
 
-export default articlesSlice.reducer;
+export default articlesSlice.reducer
