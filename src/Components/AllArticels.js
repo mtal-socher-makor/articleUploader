@@ -80,14 +80,14 @@ const handleOpenForm = () => {
                       <StyledTableCell>{article.updatedAt} </StyledTableCell>
                       <StyledTableCell style={{ padding: '0px' }}>
                         <Grid container justiyContent="space-evenly">
-                          <Grid item xs={4}>
-                            <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => setChosenArticleAndRedirect(article)}>
-                              <EditIcon fontSize="small" style={{ color: '#A3DA8D' }} />
-                            </IconButton>
-                          </Grid>
                           <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
                             <IconButton size="small" style={{ borderRadius: '50%' }}>
                               <InsertDriveFileIcon fontSize="small" style={{ color: '#548CFF' }} />
+                            </IconButton>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => setChosenArticleAndRedirect(article)}>
+                              <EditIcon fontSize="small" style={{ color: '#A3DA8D' }} />
                             </IconButton>
                           </Grid>
                           <Grid item xs={4} align="left" style={{ display: 'flex', justifyContent: 'flex-end' }}>
