@@ -34,9 +34,6 @@ function DateInputUnit({ className = '', label, value, onChange, error = null, d
             />
           }
         />
-        {/* <Typography variant="caption">
-          {label}
-        </Typography> */}
       </Grid>
     </Grid>
   );

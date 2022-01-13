@@ -9,7 +9,7 @@ function SubHeader({ title }) {
       <Grid item xs={12}>
         <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={6}>
-          <Grid container justifyContent="center" alignItems>
+          <Grid container justifyContent="center">
               <Grid item xs={2} className={classes.blueShape} />
             </Grid>
           </Grid>
