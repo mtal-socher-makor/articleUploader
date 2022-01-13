@@ -47,7 +47,7 @@ function AllArticles(props) {
       <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
         <Grid item xs={8} align="right">
           <FilledButton style={{ width: 37 }}>
-            <AddCircleOutlineIcon style={{ color: '#ffff' }} /> New
+            <AddCircleOutlineIcon fontSize="small" style={{ color: '#ffff' ,marginRight : 3}} /> New
           </FilledButton>
         </Grid>
         <Grid container direction="column" alignItems="center">
