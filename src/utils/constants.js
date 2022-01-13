@@ -3,7 +3,6 @@ import axios from "axios";
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-
 export const END_POINT = {
   AUTH: "/auth",
   FILE: "/file",

@@ -1,21 +1,19 @@
-
 import { Grid, Typography } from '@material-ui/core';
-import { useStyles } from "../Styles/mainStyles";
+import { useStyles } from '../Styles/mainStyles';
+import { ReactComponent as Rectangle } from '../Assets/Rectangle.svg';
 
 function SubHeader({ title }) {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <>
       <Grid item xs={12}>
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item xs={6}>
-          <Grid container justifyContent="center">
-              <Grid item xs={2} className={classes.blueShape} />
-            </Grid>
+          <Grid item xs={6} align='cneter'style={{display : 'flex' , justifyContent: 'center', paddingBottom : 4 }}>
+            <Rectangle/>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={6} >
+      <Grid item xs={6}>
         <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={12}>
             <Typography className={classes.title}>{title}</Typography>
@@ -26,4 +24,4 @@ function SubHeader({ title }) {
   );
 }
 
-export default SubHeader
+export default SubHeader;
