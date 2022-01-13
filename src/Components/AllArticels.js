@@ -62,7 +62,7 @@ function AllArticles(props) {
     <>
       <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm} newArticle={newArticle} />
       <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
-        <Grid item xs={8} align="right">
+        <Grid item xs={6} align="right">
           <FilledButton
             style={{ width: 37 }}
             onClick={addNewArticle}
@@ -84,7 +84,7 @@ function AllArticles(props) {
         </Grid>
 
         <Grid item xs={12} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-          <TableContainer className={classes.tableContainer} style={{ width: '80%' }}>
+          <TableContainer className={classes.tableContainer} style={{ width: '50%' }}>
             <StyledTable stickyHeader size="small" style={{ width: '100%' }}>
               <TableHead>
                 <TableRow className={classes.tableRow} style={{ filter: 'none' }}>
@@ -106,7 +106,7 @@ function AllArticles(props) {
                         <StyledTableCell style={{ width: "50px" }}>{article.title.slice(0, 10)} </StyledTableCell>
                         <StyledTableCell>{article.description.slice(0, 10)} </StyledTableCell>
                         <StyledTableCell>{format(new Date(article.date), 'dd.MM.yyyy')} </StyledTableCell>
-                        <StyledTableCell>{article.file} </StyledTableCell>
+                        <StyledTableCell style={{maxWidth: 415}}>{article.file} </StyledTableCell>
                         <StyledTableCell>{convertTimestemp(article.createdAt)} </StyledTableCell>
                         <StyledTableCell style={{ padding: '0px' }}>
                           <Grid container justiyContent="space-evenly">

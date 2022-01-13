@@ -1,57 +1,68 @@
-import React, { useState } from 'react'
-import { Grid, Typography, IconButton, InputAdornment, makeStyles, CircularProgress } from '@material-ui/core'
-import { useDispatch, useSelector } from 'react-redux'
-import * as actionAuth from '../Redux/auth/action'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import { useMediaQuery } from '@material-ui/core'
-import { useTheme } from '@material-ui/core/styles'
-import { useLocation, Redirect, Link } from 'react-router-dom'
-import { ReactComponent as BlueBorder } from '../Assets/blueBorder.svg'
-import { validateLogin } from '../Components/Reusables/validationFunctions'
-import TextInputUnit from '../Components/Reusables/TextInputUnit'
-import { FilledButton } from '../Styles/mainStyles'
+import React, { useEffect, useState } from 'react';
+import { Grid, Typography, IconButton, InputAdornment, makeStyles, CircularProgress } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actionAuth from '../Redux/auth/action';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import { useLocation, Redirect, Link } from 'react-router-dom';
+import { ReactComponent as BlueBorder } from '../Assets/blueBorder.svg';
+import { validateLogin } from '../Components/Reusables/validationFunctions';
+import TextInputUnit from '../Components/Reusables/TextInputUnit';
+import { FilledButton } from '../Styles/mainStyles';
 const Login = () => {
-  const classes = useStyles()
-  const dispatch = useDispatch()
-  const theme = useTheme()
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const theme = useTheme();
   //const location = useLocation()
-  const [form, setForm] = useState({ username: '', password: '' })
-  const [showPassword, setShowPassword] = useState(false)
-  const [errors, setErrors] = useState({})
-  const [validationResult, setValidationResult] = useState(false)
+  const [form, setForm] = useState({ username: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [validationResult, setValidationResult] = useState(false);
 
-  const twoFactAuth = useSelector((state) => state.auth.twoFactAuth)
-  const loadingIndicator = useSelector((state) => state.auth.loadingIndicator)
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-  const sm = useMediaQuery(theme.breakpoints.up('sm'))
+  const twoFactAuth = useSelector((state) => state.auth.twoFactAuth);
+  const loadingIndicator = useSelector((state) => state.auth.loadingIndicator);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const sm = useMediaQuery(theme.breakpoints.up('sm'));
 
+  useEffect(() => {
+    let token = localStorage.getItem('token');
+    if (token !== '') {
+      dispatch(actionAuth.login(form.username , form.password))
+      return <Redirect to="/research" />;
+    } else {
+      return;
+    }
+  }, []);
+
+  
   const handleChangeInputs = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-    validateLogin({ [e.target.name]: e.target.value }, errors, setErrors, validationResult, setValidationResult)
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+    validateLogin({ [e.target.name]: e.target.value }, errors, setErrors, validationResult, setValidationResult);
+  };
 
   const handleLogin = () => {
-    console.log('form.username, form.password', form.username, form.password)
-    dispatch(actionAuth.login(form.username, form.password))
-  }
+    console.log('form.username, form.password', form.username, form.password);
+    dispatch(actionAuth.login(form.username, form.password));
+  };
 
   const handlePressEnter = (e) => {
     if (e.key === 'Enter' && form.username !== '' && form.password !== '') {
-      handleLogin()
+      handleLogin();
     }
-  }
+  };
 
-  const handleClickShowPassword = () => setShowPassword(!showPassword)
-  const handleMouseDownPassword = () => setShowPassword(!showPassword)
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   if (twoFactAuth.token !== null || twoFactAuth.deviceId !== null) {
-    return <Redirect to={'verification'} />
+    return <Redirect to={'verification'} />;
   }
 
   if (isAuthenticated) {
-    console.log('isAuth', true)
-    return <Redirect to='/research' />
+    console.log('isAuth', true);
+    return <Redirect to="/research" />;
     // console.log('location.state', location)
     // if (location.state !== undefined && location.state !== null) {
     //   console.log('if location.state.from.pathname', location.state.from.pathname)
@@ -68,10 +79,12 @@ const Login = () => {
     //   }
     // }
   }
+
+  
   return (
-    <Grid container justifyContent='center' className={classes.modalContainer}>
+    <Grid container justifyContent="center" className={classes.modalContainer}>
       <Grid item xs={11} className={sm ? classes.desktopLoginContainer : classes.mobileLoginContainer}>
-        <Grid container justifyContent='center'>
+        <Grid container justifyContent="center">
           <Grid
             item
             xs={12}
@@ -80,12 +93,12 @@ const Login = () => {
             className={classes.paddingOfGrid}
             //  className={classes.loginGridPadding}
           >
-            <Grid container justifyContent='center'>
+            <Grid container justifyContent="center">
               <BlueBorder />
               <Grid item xs={12}>
-                <Grid container justifyContent='center'>
+                <Grid container justifyContent="center">
                   <Grid item className={classes.paddingTitle}>
-                    <Typography variant='h6' className={classes.portalTitle}>
+                    <Typography variant="h6" className={classes.portalTitle}>
                       Research
                     </Typography>
                   </Grid>
@@ -93,7 +106,7 @@ const Login = () => {
               </Grid>
 
               <Grid item xs={12} className={classes.marginTop5px}>
-                <Grid container justifyContent='center'>
+                <Grid container justifyContent="center">
                   <Grid item>
                     <Typography
                       //   variant="subtitle3"
@@ -106,10 +119,10 @@ const Login = () => {
               </Grid>
               <Grid item xs={12} className={classes.paddingBottom16px}>
                 <TextInputUnit
-                  id='data-cy-login-username'
+                  id="data-cy-login-username"
                   className={classes.textFieldStyle}
-                  label='Username'
-                  name='username'
+                  label="Username"
+                  name="username"
                   value={form.username || ''}
                   onChange={handleChangeInputs}
                   error={errors.username}
@@ -124,10 +137,10 @@ const Login = () => {
                 <Grid container>
                   <Grid item xs={12} className={classes.paddingBottom8px}>
                     <TextInputUnit
-                      id='data-cy-login-password'
+                      id="data-cy-login-password"
                       className={classes.textFieldStyle}
-                      label='Password'
-                      name='password'
+                      label="Password"
+                      name="password"
                       value={form.password || ''}
                       onChange={handleChangeInputs}
                       error={errors.password}
@@ -138,12 +151,12 @@ const Login = () => {
                         },
                       }}
                       onKeyDown={(e) => {
-                        handlePressEnter(e)
+                        handlePressEnter(e);
                       }}
                       InputProps={{
                         endAdornment: (
-                          <InputAdornment position='end'>
-                            <IconButton className={classes.endAdornmentButton} aria-label='toggle password visibility' onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
+                          <InputAdornment position="end">
+                            <IconButton className={classes.endAdornmentButton} aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
                               {showPassword ? <Visibility /> : <VisibilityOff />}
                             </IconButton>
                           </InputAdornment>
@@ -153,7 +166,7 @@ const Login = () => {
                   </Grid>
                   <Grid container>
                     <Grid item xs={12} className={classes.forgotStyle}>
-                      <Link to='/companies/contract' className={classes.linkStyle}>
+                      <Link to="/companies/contract" className={classes.linkStyle}>
                         Forgot Password
                       </Link>
                     </Grid>
@@ -161,11 +174,11 @@ const Login = () => {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <Grid container justifyContent='center'>
+                <Grid container justifyContent="center">
                   <Grid item xs={12} className={classes.center}>
                     <FilledButton
-                      id='loginBtn'
-                      varint='outlined'
+                      id="loginBtn"
+                      varint="outlined"
                       onClick={handleLogin}
                       disabled={!validationResult}
                       className={classes.logIn}
@@ -181,10 +194,10 @@ const Login = () => {
         </Grid>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
 const useStyles = makeStyles((theme) => ({
   modalContainer: {
     backgroundColor: '#fff',
@@ -286,4 +299,4 @@ const useStyles = makeStyles((theme) => ({
     textAlignLast: 'center',
   },
   loginBtn: {},
-}))
+}));
