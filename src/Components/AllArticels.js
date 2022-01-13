@@ -2,36 +2,34 @@ import { Grid, TableContainer, Table, TableHead, TableCell, TableRow, TableBody,
 import { useDispatch, useSelector } from 'react-redux';
 import * as articlesAction from '../Redux/articleSlice/articleSlice';
 import { format } from 'date-fns';
-import { useStyles } from '../Styles/mainStyles';
+import { useStyles, FilledButton } from '../Styles/mainStyles';
 import EditIcon from '@material-ui/icons/Edit';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import SubHeader from './SubHeader';
-import {ReactComponent as Rectangle} from '../Assets/Rectangle.svg'
+import { ReactComponent as Rectangle } from '../Assets/Rectangle.svg';
 import { useState } from 'react';
-import UploadForm from '../Components/UploadForm'
+import UploadForm from '../Components/UploadForm';
 const headersLables = ['Title', 'Decription', 'Date', 'File', 'Created at', 'Updated at'];
-
-
 
 function AllArticles(props) {
   const allArticles = useSelector((state) => state.articles.articles);
   const classes = useStyles();
   const dispatch = useDispatch();
- const [openForm, setOpenForm] = useState(false)
+  const [openForm, setOpenForm] = useState(false);
 
-const handleCloseForm = () => {
-  setOpenForm(false);
-} 
-const handleOpenForm = () => {
-   setOpenForm(true);
-}
-
+  const handleCloseForm = () => {
+    setOpenForm(false);
+  };
+  const handleOpenForm = () => {
+    setOpenForm(true);
+  };
 
   const setChosenArticleAndRedirect = (article) => {
     dispatch(articlesAction.setChosenArticle(article));
-    handleOpenForm()
-  }
+    handleOpenForm();
+  };
 
   const deleteArticle = async (id) => {
     // FOR THE LADIES!
@@ -45,18 +43,22 @@ const handleOpenForm = () => {
   };
   return (
     <>
-      <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm}/>
+      <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm} />
       <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
-        <Grid item xs={12}>
-          <Grid container direction="column" alignItems="center">
-            <Grid item xs={12}>
-              <Rectangle />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography className={classes.title}>All Articles</Typography>
-            </Grid>
+        <Grid item xs={8} align="right">
+          <FilledButton style={{ width: 37 }}>
+            <AddCircleOutlineIcon style={{ color: '#ffff' }} /> New
+          </FilledButton>
+        </Grid>
+        <Grid container direction="column" alignItems="center">
+          <Grid item xs={2} align="center">
+            <Rectangle />
+          </Grid>
+          <Grid item xs={9} align="center">
+            <Typography className={classes.title}>All Articles</Typography>
           </Grid>
         </Grid>
+
         <Grid item xs={12} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
           <TableContainer className={classes.tableContainer} style={{ width: '80%' }}>
             <StyledTable stickyHeader size="small" style={{ width: '100%' }}>
@@ -86,8 +88,10 @@ const handleOpenForm = () => {
                         <StyledTableCell style={{ padding: '0px' }}>
                           <Grid container justiyContent="space-evenly">
                             <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-                              <IconButton size="small" style={{ borderRadius: '50%' }}
-                               /* 
+                              <IconButton
+                                size="small"
+                                style={{ borderRadius: '50%' }}
+                                /* 
                                   ! Think of Download the file
                                */
                               >
@@ -135,4 +139,3 @@ const StyledTableCell = withStyles((theme) => ({
     padding: '6px 16px 6px 16px',
   },
 }))(TableCell);
-
