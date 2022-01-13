@@ -7,6 +7,10 @@ import {
   } from "@material-ui/core";
 
   export const useStyles = makeStyles({
+    modalBackDrop: {    
+        backdropFilter: 'blur(2px)',    
+        backgroundColor: '#00001e25',    
+    },
     page: {
       marginTop: '15%',
       width : '30%',
