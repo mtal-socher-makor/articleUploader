@@ -17,6 +17,9 @@ export const articlesSlice = createSlice({
     setChosenArticle: (state, action) => {
       state.chosenArticle = action.payload
     },
+    clearChosenArticle : (state , action) => {
+      state.chosenArticle  = null
+    }
   },
 })
 
@@ -54,6 +57,6 @@ export const getAllArticlesAsync = () => async (dispatch) => {
   }
 }
 
-export const { setArticels, setChosenArticle } = articlesSlice.actions
+export const { setArticels, setChosenArticle, clearChosenArticle } = articlesSlice.actions
 
 export default articlesSlice.reducer

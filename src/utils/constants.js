@@ -13,8 +13,7 @@ export const END_POINT = {
 
 export function setAuthToken(token) {
   if (token) {
-    console.log('token', token)
-    axios.defaults.headers.common['Authorization'] = `Bearer token`
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   } else {
     delete axios.defaults.headers.common['Authorization']
   }

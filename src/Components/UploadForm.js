@@ -10,13 +10,13 @@ import TextInputUnit from "./fields/TextInputUnit";
 import DateInputUnit from "./fields/DateInputUnit";
 import FileInput from "./fields/FileInput";
 import { useDispatch,  useSelector } from "react-redux"
-
+import * as articlesAction from '../Redux/articleSlice/articleSlice';
 import { selectChosenArticle, setChosenArticle } from "../Redux/articleSlice/articleSlice";
 import * as snackbarActions from '../Redux/snackbarSlice/snackbarSlice';
 import { useHistory } from 'react-router';
 
 
-function UploadForm({openForm,handleCloseForm, open}){
+function UploadForm({handleCloseForm, open , newArticle}){
     
     const classes = useStyles();
     const initStateForm = {
@@ -35,32 +35,19 @@ function UploadForm({openForm,handleCloseForm, open}){
     console.log("chosenArticle", chosenArticle);
 
 
-    //temporay useEffect - to be deleted when connected to table
-    useEffect(() => {
-      dispatch(setChosenArticle(
-        {
-            "id":188,
-            "title":"Aave",
-            "description":"12th January 2022",
-            "date":1641958551011,
-            "file":"Aave_EnigmaSmartMoney_1641967615051.pdf",
-            "createdAt":"2022-01-12T06:07:07.000Z",
-            "updatedAt":"2022-01-12T06:07:07.000Z"
-        }
-        
-      ))
-    }, [])
-
     
     //   For editing
-
     useEffect(() => {
    
     if(chosenArticle){
      setUploadForm(chosenArticle);
      setValidationResult(true);
+    }else{
+     setUploadForm({})
     }
    }, [chosenArticle]);
+
+   
 
 const handleChange = (value,fieldName) => {
     
@@ -79,25 +66,29 @@ const handleChange = (value,fieldName) => {
         let res;
         const formToSend = {...uploadForm}
         delete formToSend.id;
-    
+        delete formToSend.createdAt;
+        delete formToSend.updatedAt
       try {
-            if(chosenArticle && chosenArticle.id){
+            if(!newArticle){
                 const res = await axios.put(`${BASE_URL}${END_POINT.ARTICLE}/${chosenArticle.id}`,formToSend);
-                if (res.status === 200) {
+                if (res.status === 200 || res.status === 201) {
                 console.log("post - success");
                 dispatch(setChosenArticle({}))
                 dispatch(snackbarActions.setSnackBarAction({visible: true, type:'success', message:'Successfully updated', timeout:2000}))
-                //history.push("/");
+                dispatch(articlesAction.getAllArticlesAsync())
+                handleCloseForm()
                 }else{
                     dispatch(snackbarActions.setSnackBarAction({visible: true, type:'error', message:'Action failed', timeout:2000}))
                 }
             }else{
+                console.log("i'm here");
                 res = await axios.post(`${BASE_URL}${END_POINT.ARTICLE}`,formToSend);
-                if (res.status === 200) {
+                if (res.status === 200 || res.status === 201) {
                 console.log("post - success")
                 dispatch(setChosenArticle({}))
                 dispatch(snackbarActions.setSnackBarAction({visible: true, type:'success', message:'Successfully published', timeout:2000}))
-                // history.push("/");
+                dispatch(articlesAction.getAllArticlesAsync())
+                handleCloseForm()
                 }else{
                     dispatch(snackbarActions.setSnackBarAction({visible: true, type:'error', message:'Action failed', timeout:2000}))
                 }

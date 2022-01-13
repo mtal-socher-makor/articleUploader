@@ -11,13 +11,18 @@ import SubHeader from './SubHeader';
 import { ReactComponent as Rectangle } from '../Assets/Rectangle.svg';
 import { useState } from 'react';
 import UploadForm from '../Components/UploadForm';
-const headersLables = ['Title', 'Decription', 'Date', 'File', 'Created at', 'Updated at'];
+import { END_POINT, BASE_URL } from "../utils/constants";
+import axios from "axios";
+
+const headersLables = ['Title', 'Decription', 'Date', 'File', 'Created at'];
+
 
 function AllArticles(props) {
   const allArticles = useSelector((state) => state.articles.articles);
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
+  const [newArticle , setNewArticle] = useState(false)
 
   const handleCloseForm = () => {
     setOpenForm(false);
@@ -28,26 +33,42 @@ function AllArticles(props) {
 
   const setChosenArticleAndRedirect = (article) => {
     dispatch(articlesAction.setChosenArticle(article));
+    setNewArticle(false)
     handleOpenForm();
   };
-
+  
   const deleteArticle = async (id) => {
-    // FOR THE LADIES!
+    const res = await axios.delete(`${BASE_URL}${END_POINT.ARTICLE}/${id}`);
+    if (res.status === 200) {
+      console.log("delete - success");
+      dispatch(articlesAction.getAllArticlesAsync())
+    }
   };
+  
+  const addNewArticle = () =>{
+    dispatch(articlesAction.clearChosenArticle())
+    setNewArticle(true)
+    handleOpenForm()
+  }
 
-  const convertTimestemp = (unixTimeStemp) => {
-    const date = new Date(unixTimeStemp);
-    console.log(date, typeof date);
-    return 'HELLO';
-    // format(new Date(date) , 'yy.MM.yyyy')
-  };
+  // const convertTimestemp = (unixTimeStemp) => {
+     
+  //    return format(new Date(date) , 'yy.MM.yyyy')
+  // };
   return (
     <>
-      <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm} />
+      <UploadForm openForm={handleOpenForm} handleCloseForm={handleCloseForm} open={openForm} newArticle={newArticle}/>
       <Grid container className={classes.pageGrid} justifyContent="center" alignItems="center">
         <Grid item xs={8} align="right">
-          <FilledButton style={{ width: 37 }}>
-            <AddCircleOutlineIcon fontSize="small" style={{ color: '#ffff' ,marginRight : 3}} /> New
+          <FilledButton 
+            style={{ width: 37 }}
+            onClick={addNewArticle} 
+            >
+            <AddCircleOutlineIcon
+              
+              fontSize="small" 
+              style={{ color: '#ffff' ,marginRight : 3}} 
+              /> New
           </FilledButton>
         </Grid>
         <Grid container direction="column" alignItems="center">
@@ -83,8 +104,7 @@ function AllArticles(props) {
                         <StyledTableCell>{article.description.slice(0, 10)} </StyledTableCell>
                         <StyledTableCell>{format(new Date(article.date * 1000), 'dd.MM.yyyy')} </StyledTableCell>
                         <StyledTableCell>{article.file} </StyledTableCell>
-                        <StyledTableCell>{convertTimestemp(article.createdAt)} </StyledTableCell>
-                        <StyledTableCell>{article.updatedAt} </StyledTableCell>
+                        <StyledTableCell>{article.createdAt} </StyledTableCell>
                         <StyledTableCell style={{ padding: '0px' }}>
                           <Grid container justiyContent="space-evenly">
                             <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
