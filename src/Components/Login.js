@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { Grid, Typography, IconButton, InputAdornment, makeStyles, CircularProgress } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
-import * as actionAuth from '../redux/auth/action'
+import * as actionAuth from '../Redux/auth/action'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { useLocation, Redirect, Link } from 'react-router-dom'
-import { ReactComponent as BlueBorder } from '../assets/icons/blueBorder.svg'
-import { validateLogin } from '../components/Reusables/validationFunctions'
-import TextInputUnit from '../components/Reusables/TextInputUnit'
-import { FilledButton } from '../styles/MainStyles'
+import { ReactComponent as BlueBorder } from '../Assets/blueBorder.svg'
+import { validateLogin } from '../Components/Reusables/validationFunctions'
+import TextInputUnit from '../Components/Reusables/TextInputUnit'
+import { FilledButton } from '../Styles/mainStyles'
 const Login = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const theme = useTheme()
-  const location = useLocation()
+  //const location = useLocation()
   const [form, setForm] = useState({ username: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({})
@@ -25,10 +25,6 @@ const Login = () => {
   const loadingIndicator = useSelector((state) => state.auth.loadingIndicator)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const sm = useMediaQuery(theme.breakpoints.up('sm'))
-  const isAuthor = useSelector((state) => state.auth.userContent.type === 'author')
-  const isSales = useSelector((state) => state.auth.userContent.type === 'sales')
-  const isAdmin = useSelector((state) => state.auth.userContent.type === 'admin')
-  const isMember = useSelector((state) => state.auth.userContent.type === 'client' || state.auth.userContent.type === 'prospect')
 
   const handleChangeInputs = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -54,21 +50,23 @@ const Login = () => {
   }
 
   if (isAuthenticated) {
-    console.log('location.state', location)
-    if (location.state !== undefined && location.state !== null) {
-      console.log('if location.state.from.pathname', location.state.from.pathname)
-      return <Redirect to={location.state.from.pathname} />
-    } else {
-      console.log('else')
-      if (isAuthor) {
-        return <Redirect to='/researches' />
-      } else if (isSales || isAdmin) {
-        console.log('isSales')
-        return <Redirect to='/companies' />
-      } else if (isMember) {
-        return <Redirect to='/home' />
-      }
-    }
+    console.log('isAuth', true)
+    return <Redirect to='/research' />
+    // console.log('location.state', location)
+    // if (location.state !== undefined && location.state !== null) {
+    //   console.log('if location.state.from.pathname', location.state.from.pathname)
+    //   return <Redirect to={location.state.from.pathname} />
+    // } else {
+    //   console.log('else')
+    //   if (isAuthor) {
+    //     return <Redirect to='/researches' />
+    //   } else if (isSales || isAdmin) {
+    //     console.log('isSales')
+    //     return <Redirect to='/companies' />
+    //   } else if (isMember) {
+    //     return <Redirect to='/home' />
+    //   }
+    // }
   }
   return (
     <Grid container justifyContent='center' className={classes.modalContainer}>
@@ -88,7 +86,7 @@ const Login = () => {
                 <Grid container justifyContent='center'>
                   <Grid item className={classes.paddingTitle}>
                     <Typography variant='h6' className={classes.portalTitle}>
-                      Research Portal
+                      Research
                     </Typography>
                   </Grid>
                 </Grid>
