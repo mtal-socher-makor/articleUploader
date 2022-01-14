@@ -43,7 +43,6 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    console.log('form.username, form.password', form.username, form.password);
     dispatch(actionAuth.login(form.username, form.password));
   };
 
@@ -61,23 +60,7 @@ const Login = () => {
   }
 
   if (isAuthenticated) {
-    console.log('isAuth', true);
-    return <Redirect to="/research" />;
-    // console.log('location.state', location)
-    // if (location.state !== undefined && location.state !== null) {
-    //   console.log('if location.state.from.pathname', location.state.from.pathname)
-    //   return <Redirect to={location.state.from.pathname} />
-    // } else {
-    //   console.log('else')
-    //   if (isAuthor) {
-    //     return <Redirect to='/researches' />
-    //   } else if (isSales || isAdmin) {
-    //     console.log('isSales')
-    //     return <Redirect to='/companies' />
-    //   } else if (isMember) {
-    //     return <Redirect to='/home' />
-    //   }
-    // }
+    return <Redirect to="/research" />;    
   }
 
   
