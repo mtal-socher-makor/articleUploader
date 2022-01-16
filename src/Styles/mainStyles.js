@@ -1,4 +1,4 @@
-import { makeStyles, withStyles, Button, IconButton, TextField } from '@material-ui/core';
+import { makeStyles, withStyles, Button, IconButton, TextField, Table, TableCell } from '@material-ui/core';
 
 export const useStyles = makeStyles({
   blueShape: {
@@ -86,7 +86,8 @@ export const FilledButton = withStyles({
       color: '#868DA2',
     },
   },
-})(Button)
+})(Button);
+
 export const StyledTextField = withStyles({
   root: {
     width: '100%',
@@ -118,4 +119,20 @@ export const StyledTextField = withStyles({
       transform: 'translate(12px, 12px) scale(1)',
     },
   },
-})(TextField)
+})(TextField);
+
+export const StyledTable = withStyles(() => ({
+  root: {
+    borderCollapse: 'separate',
+    borderSpacing: '0px 3px',
+  },
+}))(Table);
+
+export const StyledTableCell = withStyles((theme) => ({
+  root: {
+    color: '#000',
+    fontSize: '14px',
+    borderBottom: 'none',
+    padding: '6px 16px 6px 16px',
+  },
+}))(TableCell);

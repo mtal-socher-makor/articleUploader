@@ -1,13 +1,13 @@
 import { Grid, TableContainer, Table, TableHead, TableCell, TableRow, TableBody, IconButton, withStyles, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import * as articlesAction from '../Redux/articleSlice/articleSlice';
+import * as actionSnackBar from '../Redux/snackbarSlice/snackbarSlice';
 import { format } from 'date-fns';
-import { useStyles, FilledButton } from '../Styles/mainStyles';
+import { useStyles, FilledButton , StyledTable , StyledTableCell} from '../Styles/mainStyles';
 import EditIcon from '@material-ui/icons/Edit';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import SubHeader from './SubHeader';
 import { ReactComponent as Rectangle } from '../Assets/Rectangle.svg';
 import { useState } from 'react';
 import UploadForm from '../Components/UploadForm';
@@ -39,9 +39,7 @@ function AllArticles() {
   const deleteArticle = async (id) => {
     const res = await axios.delete(`${BASE_URL}${END_POINT.ARTICLE}/${id}`);
     if (res.status === 200) {
-      {/**
-        ! add "delete success snackbar"
-      */}
+      dispatch(actionSnackBar.setSnackBarAction({ type: 'success', timeout: 3000, message: 'Article Deleted', visible: true }));
       dispatch(articlesAction.getAllArticlesAsync());
     }
   };
@@ -139,18 +137,4 @@ function AllArticles() {
 
 export default AllArticles;
 
-const StyledTable = withStyles(() => ({
-  root: {
-    borderCollapse: 'separate',
-    borderSpacing: '0px 3px',
-  },
-}))(Table);
 
-const StyledTableCell = withStyles((theme) => ({
-  root: {
-    color: '#000',
-    fontSize: '14px',
-    borderBottom: 'none',
-    padding: '6px 16px 6px 16px',
-  },
-}))(TableCell);
