@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid, Dialog } from "@material-ui/core";
+import { Grid, Dialog, IconButton} from "@material-ui/core";
 import { END_POINT, BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { useStyles } from "../Styles/formStyles";
@@ -20,7 +20,7 @@ import {
 } from "../Redux/articleSlice/articleSlice";
 import * as snackbarActions from "../Redux/snackbarSlice/snackbarSlice";
 import { useHistory } from "react-router";
-
+import CloseIcon from '@material-ui/icons/Close';
 function UploadForm({ handleCloseForm, open, newArticle }) {
   const classes = useStyles();
   const initStateForm = {
