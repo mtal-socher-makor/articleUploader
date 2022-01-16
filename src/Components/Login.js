@@ -31,7 +31,6 @@ const Login = () => {
   useEffect(() => {
     let token = localStorage.getItem('token')
     if (token !== null) {
-      alert('hey')
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
       dispatch({ type: LOGIN_SUCCESS, payload: { token: localStorage.getItem('token') } })
 

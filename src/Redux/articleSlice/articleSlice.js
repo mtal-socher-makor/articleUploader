@@ -8,20 +8,24 @@ export const articlesSlice = createSlice({
   initialState: {
     articles: null,
     chosenArticle: null,
+    subscriptions: null,
   },
 
   reducers: {
     setArticels: (state, action) => {
-      state.articles = action.payload
+      state.articles = action.payload;
+    },
+    setSubs: (state, action) => {
+      state.subscriptions = action.payload;
     },
     setChosenArticle: (state, action) => {
-      state.chosenArticle = action.payload
+      state.chosenArticle = action.payload;
     },
-    clearChosenArticle : (state , action) => {
-      state.chosenArticle  = null
-    }
+    clearChosenArticle: (state, action) => {
+      state.chosenArticle = null;
+    },
   },
-})
+});
 
 
 
@@ -57,6 +61,18 @@ export const getAllArticlesAsync = () => async (dispatch) => {
   }
 }
 
-export const { setArticels, setChosenArticle, clearChosenArticle } = articlesSlice.actions
+export const getAllSubsAsync = () => async(dispatch) => {
+   try {
+     let resp = await axios.get(`${BASE_URL}${END_POINT.SUBSCRIPTION}`);
+     if (resp.status === 200) {
+       dispatch(setSubs(resp.data));
+       dispatch(snackbarActions.setSnackBarAction({ type: 'success', timeout: 3000, message: 'Subscribers loaded successfuly', visible: true }));
+     }
+   } catch (err) {
+     dispatch(snackbarActions.setSnackBarAction({ type: 'error', timeout: 3000, message: 'Network error', visible: true }));
+   }
+}
+
+export const { setArticels,setSubs, setChosenArticle, clearChosenArticle } = articlesSlice.actions
 
 export default articlesSlice.reducer
