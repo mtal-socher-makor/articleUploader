@@ -11,7 +11,8 @@ import { useStyles, StyledTextField } from "../../Styles/formStyles";
 import { validateUploadForm } from "../../utils/validationFunctions";
 import { DeleteButton } from "../../Styles/mainStyles";
 import styles from "../../Styles/FileInput.module.css";
-
+import * as acrtionSnackbar from '../../Redux/snackbarSlice/snackbarSlice'
+import { useDispatch } from "react-redux";
 
 
 const shortify = (name = "") => {
@@ -25,22 +26,19 @@ const shortify = (name = "") => {
 
 function FileInput({setUploadForm,uploadForm,setValidationResult,errors, setErrors}) {
 
+    const dispatch = useDispatch()
     const onPDFUpload = async (e) => {
-        console.log("onPDFUpload clicked")
       let pdf = e.target.files[0];
-      console.log("pdf", pdf)
         const formData = new FormData();
         formData.append("file", pdf);
         try {
           const res = await axios.put(`${BASE_URL}${END_POINT.FILE}`, formData);
           if (res.status === 200 && res.data.file_name) {
-            console.log('res', res)
-            console.log("res.data.file", res.data.file_name)
             setUploadForm(prev => ({...prev, file: res.data.file_name}))
             validateUploadForm({file : res.data.file_name}, errors, setErrors, setValidationResult)
           }
         } catch (error) {
-          console.log(error.message);
+          dispatch(acrtionSnackbar.setSnackBarAction({visible :true , timeout : 3000 , message : error.message , type : 'error'}))
         }
     };
 

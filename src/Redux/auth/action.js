@@ -11,38 +11,39 @@ export const login = (email, password) => async (dispatch) => {
   dispatch({ type: SET_LOADING_INDICATOR_AUTH, payload: true });
 
   try {
-    // TYPE = can be email_confirm / mobile_app / dev
-    const headers = { 'Content-Type': 'application/json' };
+    if (localStorage.getItem('token') !== null) {
+      dispatch({ type: LOGIN_SUCCESS, payload: { token: localStorage.getItem('token') } });
+    } else {
+      const headers = { 'Content-Type': 'application/json' };
 
-    let res = await axios({
-      method: 'PUT',
-      url: `${BASE_URL}${END_POINT.AUTH}`,
-      data: { username: email, password: password },
-      headers: headers,
-    });
-    console.log('res', res);
-    setAuthToken(res.data.token);
-    localStorage.token = res.data.token;
-    //const userContent = { ...res.data.user, ...res.data.payload.user }
-    //localStorage.setItem('userContent', JSON.stringify(userContent))
+      let res = await axios({
+        method: 'PUT',
+        url: `${BASE_URL}${END_POINT.AUTH}`,
+        data: { username: email, password: password },
+        headers: headers,
+      });
+      setAuthToken(res.data.token);
+      localStorage.token = res.data.token;
+      //const userContent = { ...res.data.user, ...res.data.payload.user }
+      //localStorage.setItem('userContent', JSON.stringify(userContent))
 
-    dispatch({ type: LOGIN_SUCCESS, payload: { token: res.data.token } });
-    // dispatch({type:SET_LOADING_INDICATOR_2FA, payload:false});
-    payload = {
-      visible: true,
-      timeout: 3000,
-      message: 'Successfully connected',
-      type: 'success',
-    };
-    dispatch(actionSnackBar.setSnackBarAction(payload));
-  } catch (error) {
-    console.log('here', error);
-    if (error.response.status === 404) {
-      console.log(' i am here');
+      dispatch({ type: LOGIN_SUCCESS, payload: { token: res.data.token } });
+      // dispatch({type:SET_LOADING_INDICATOR_2FA, payload:false});
       payload = {
         visible: true,
         timeout: 3000,
-        message: error.response.data.error,
+        message: 'Successfully connected',
+        type: 'success',
+      };
+      dispatch(actionSnackBar.setSnackBarAction(payload));
+    }
+    // TYPE = can be email_confirm / mobile_app / dev
+  } catch (error) {
+    if (error.response.status === 404) {
+      payload = {
+        visible: true,
+        timeout: 3000,
+        message: error.message,
         type: 'error',
       };
       dispatch(actionSnackBar.setSnackBarAction(payload));

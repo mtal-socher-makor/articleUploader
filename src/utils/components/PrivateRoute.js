@@ -4,8 +4,6 @@ import Research from '../../Components/Research'
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
 
-  console.log('isAuthenticated', isAuthenticated)
-  console.log('component', Component)
   return (
     <Route
       {...rest}
