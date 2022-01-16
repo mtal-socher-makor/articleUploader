@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Grid, Dialog } from '@material-ui/core';
+import { Grid, Dialog, IconButton } from '@material-ui/core';
 import { END_POINT, BASE_URL } from '../utils/constants';
 import axios from 'axios';
 import { useStyles } from '../Styles/formStyles';
@@ -14,7 +14,7 @@ import * as articlesAction from '../Redux/articleSlice/articleSlice';
 import { selectChosenArticle, setChosenArticle } from '../Redux/articleSlice/articleSlice';
 import * as snackbarActions from '../Redux/snackbarSlice/snackbarSlice';
 import { useHistory } from 'react-router';
-
+import CloseIcon from '@material-ui/icons/Close';
 function UploadForm({ handleCloseForm, open, newArticle }) {
   const classes = useStyles();
   const initStateForm = {
@@ -117,8 +117,14 @@ function UploadForm({ handleCloseForm, open, newArticle }) {
           root: classes.modalBackDrop,
         },
       }}
+      transitionDuration={{ appear: 10, enter: 50, exit: 50 }}
     >
       <Grid container justifyContent="center">
+        <Grid item xs={12} align="right">
+          <IconButton disableRipple onClick={handleCloseForm}>
+            <CloseIcon fontSize="medium" />
+          </IconButton>
+        </Grid>
         <Grid item xs={10} className={classes.header}>
           <Grid container justifyContent="center" alignItems="center" style={{ paddingTop: 10 }}>
             <SubHeader title="Upload Article" />
