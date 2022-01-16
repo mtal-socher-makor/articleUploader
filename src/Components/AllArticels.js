@@ -39,7 +39,9 @@ function AllArticles() {
   const deleteArticle = async (id) => {
     const res = await axios.delete(`${BASE_URL}${END_POINT.ARTICLE}/${id}`);
     if (res.status === 200) {
-      console.log('delete - success');
+      {/**
+        ! add "delete success snackbar"
+      */}
       dispatch(articlesAction.getAllArticlesAsync());
     }
   };

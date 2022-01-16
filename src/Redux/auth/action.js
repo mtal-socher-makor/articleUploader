@@ -22,7 +22,6 @@ export const login = (email, password) => async (dispatch) => {
         data: { username: email, password: password },
         headers: headers,
       });
-      console.log('res', res);
       setAuthToken(res.data.token);
       localStorage.token = res.data.token;
       //const userContent = { ...res.data.user, ...res.data.payload.user }
@@ -40,13 +39,11 @@ export const login = (email, password) => async (dispatch) => {
     }
     // TYPE = can be email_confirm / mobile_app / dev
   } catch (error) {
-    console.log('here', error);
     if (error.response.status === 404) {
-      console.log(' i am here');
       payload = {
         visible: true,
         timeout: 3000,
-        message: error.response.data.error,
+        message: error.message,
         type: 'error',
       };
       dispatch(actionSnackBar.setSnackBarAction(payload));

@@ -22,7 +22,6 @@ export function validateUploadForm(fieldValues,errors, setErrors, setValidationR
 
         if(isValid(new Date(fieldValues.date))){
             temp.date = "";
-            console.log("inside is valid")
             if(!fieldValues.date){
                 temp.date = "This field is required";
             }
@@ -49,7 +48,6 @@ export function validateEditedUploadForm(fieldValues,errors, setErrors, setValid
 
     someFields.forEach(field => {
         if(field in fieldValues){
-            console.log("fieldValues[field]",fieldValues[field])
             temp[field] = fieldValues[field] ? "" : "This field is required";
         }
     })
@@ -61,7 +59,6 @@ export function validateEditedUploadForm(fieldValues,errors, setErrors, setValid
 
         if(isValid(new Date(fieldValues.date))){
             temp.date = "";
-            console.log("inside is valid")
             if(!fieldValues.date){
                 temp.date = "This field is required";
             }
