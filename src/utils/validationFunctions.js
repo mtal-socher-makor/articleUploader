@@ -2,7 +2,6 @@
 import { isValid } from 'date-fns';
 
 export function validateUploadForm(fieldValues,errors, setErrors, setValidationResult){
-
     let temp = {...errors};
     const someFields = ["title","description", "file"];
     const allFields =  ["title","description", "date", "file"];

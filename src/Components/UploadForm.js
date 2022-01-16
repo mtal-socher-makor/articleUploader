@@ -41,11 +41,15 @@ function UploadForm({ handleCloseForm, open, newArticle }) {
 
   //   For editing
   useEffect(() => {
+     if(newArticle){
+         setValidationResult(false);
+         setErrors({})
+     };
     if (chosenArticle) {
       setUploadForm(chosenArticle);
       setValidationResult(true);
     } else {
-      setUploadForm({});
+      setUploadForm(initStateForm);
     }
   }, [chosenArticle]);
 
@@ -69,15 +73,16 @@ function UploadForm({ handleCloseForm, open, newArticle }) {
     }
   };
 
+  const handleLocalClose = () => {
+    setUploadForm(initStateForm);
+    setValidationResult(false);
+    setErrors({});
+    handleCloseForm();
+  }
+
   const sendPublication = async () => {
-    // let dateToStemp = uploadForm.date.getTime() / 1000;
-    // dateToStemp = dateToStemp.toString();
-    // dateToStemp += "000";
-    // dateToStemp = parseInt(dateToStemp);
 
     let dateToStemp = getUnixTime(uploadForm.date);
-    console.log("dateToStemp", dateToStemp*1000)
-    // console.log("uploadForm", uploadForm);
     let res;
     const formToSend = {...uploadForm, date: dateToStemp*1000};
     delete formToSend.id;
@@ -153,7 +158,7 @@ function UploadForm({ handleCloseForm, open, newArticle }) {
   return (
     <Dialog
       open={open}
-      onClose={handleCloseForm}
+      onClose={handleLocalClose}
       classes={{ paper: classes.alertModalPaper }}
       BackdropProps={{
         classes: {
@@ -164,7 +169,7 @@ function UploadForm({ handleCloseForm, open, newArticle }) {
     >
       <Grid container justifyContent="center">
         <Grid item xs={12} align="right">
-          <IconButton disableRipple onClick={handleCloseForm}>
+          <IconButton disableRipple onClick={handleLocalClose}>
             <CloseIcon fontSize="medium" />
           </IconButton>
         </Grid>
