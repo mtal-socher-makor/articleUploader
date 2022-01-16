@@ -15,6 +15,12 @@ import { END_POINT, BASE_URL } from '../utils/constants';
 import axios from 'axios';
 
 const headersLables = ['Title', 'Decription', 'Date', 'File', 'Created at'];
+const initStateForm = {
+  title: "",
+  description: "",
+  date: new Date(),
+  file: "",
+};
 
 function AllArticles() {
   const allArticles = useSelector((state) => state.articles.articles);
@@ -24,7 +30,9 @@ function AllArticles() {
   const [newArticle, setNewArticle] = useState(false);
 
   const handleCloseForm = () => {
+    console.log("handleCloseForm runs")
     setOpenForm(false);
+    dispatch(articlesAction.setChosenArticle(initStateForm));
   };
   const handleOpenForm = () => {
     setOpenForm(true);
@@ -107,7 +115,7 @@ function AllArticles() {
                         <StyledTableCell style={{ maxWidth: 415 }}>{article.file} </StyledTableCell>
                         <StyledTableCell>{convertTimestemp(article.createdAt)} </StyledTableCell>
                         <StyledTableCell style={{ padding: '0px' }}>
-                          <Grid container justiyContent="space-evenly">
+                          <Grid container justifyContent="space-evenly">
                             <Grid item xs={4} align="center" style={{ display: 'flex', justifyContent: 'center' }}>
                               <IconButton size="small" style={{ borderRadius: '50%' }} onClick={() => showFile(article.file)}>
                                 <InsertDriveFileIcon fontSize="small" style={{ color: '#548CFF' }} />

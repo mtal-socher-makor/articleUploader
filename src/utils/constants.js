@@ -11,14 +11,20 @@ export const END_POINT = {
   ARTICLE: '/article',
 }
 
-export function setAuthToken(token) {
-  if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             }`
-  } else {
-    delete axios.defaults.headers.common['Authorization']
-  }
-}
 
+export function setAuthToken(token) {
+
+  if (token) {
+
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  } else {
+
+    delete axios.defaults.headers.common["Authorization"];
+
+  }
+
+}
 // export const storageKeys = {
 //   userToken: "token",
 //   userContent: "content",
