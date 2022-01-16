@@ -20,6 +20,7 @@ import {
 } from "../Redux/articleSlice/articleSlice";
 import * as snackbarActions from "../Redux/snackbarSlice/snackbarSlice";
 import { useHistory } from "react-router";
+import getUnixTime from 'date-fns/getUnixTime';
 
 function UploadForm({ handleCloseForm, open, newArticle }) {
   const classes = useStyles();
@@ -68,14 +69,16 @@ function UploadForm({ handleCloseForm, open, newArticle }) {
   };
 
   const sendPublication = async () => {
-    let dateToStemp = uploadForm.date.getTime() / 1000;
-    dateToStemp = dateToStemp.toString();
-    dateToStemp += "000";
-    dateToStemp = parseInt(dateToStemp);
+    // let dateToStemp = uploadForm.date.getTime() / 1000;
+    // dateToStemp = dateToStemp.toString();
+    // dateToStemp += "000";
+    // dateToStemp = parseInt(dateToStemp);
 
-    console.log("uploadForm", uploadForm);
+    let dateToStemp = getUnixTime(uploadForm.date);
+    console.log("dateToStemp", dateToStemp*1000)
+    // console.log("uploadForm", uploadForm);
     let res;
-    const formToSend = { ...uploadForm, date: dateToStemp };
+    const formToSend = {...uploadForm, date: dateToStemp*1000};
     delete formToSend.id;
     delete formToSend.createdAt;
     delete formToSend.updatedAt;
