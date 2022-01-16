@@ -49,7 +49,7 @@ const Login = () => {
     return <Redirect to={'verification'} />
   }
 
-  if (isAuthenticated) {
+  if (isAuthenticated || twoFactAuth.token !== null) {
     console.log('isAuth', true)
     return <Redirect to='/research' />
     // console.log('location.state', location)

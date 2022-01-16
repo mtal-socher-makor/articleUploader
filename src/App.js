@@ -78,7 +78,7 @@ function App() {
           <Route exact path="/login" component={Login}>
             {<Login></Login>}
           </Route>
-          <PrivateRoute exact path="/*" component={Login} />
+         <PrivateRoute exact path="/*" component={Login} />
           <PrivateRoute path="/research" component={Research}></PrivateRoute>
         </Switch>
       </MuiPickersUtilsProvider>
